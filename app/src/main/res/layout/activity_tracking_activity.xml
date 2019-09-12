@@ -54,59 +54,33 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <EditText
-            android:id="@+id/edittext_chat_log"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:ems="10"
-            android:hint="Enter Message"
-            android:background="@android:color/white"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/send_button_chat_log"
-            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-            android:id="@+id/send_button_chat_log"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Send"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview_chat_log"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#000000"
-            android:layout_marginBottom="8dp"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/edittext_chat_log"
+
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout7" />
-    <TextView
-            android:id="@+id/user_key"
+
+    <Button
+            android:id="@+id/send_button_chat_log"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textColor="#ffffff"
+            android:layout_height="50dp"
+            android:layout_marginEnd="8dp"
+            android:text="."
+           android:background="#000000"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.704"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/recyclerview_chat_log"
-            app:layout_constraintVertical_bias="0.849" />
+            app:layout_constraintHorizontal_bias="1.0"
+          />
 
 
 

@@ -157,43 +157,15 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginEnd="8dp"
                 android:text=" Humidity= ????"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.502"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-                android:id="@+id/txtArduino"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginBottom="120dp"
-                android:textColor="#ffffff"
-
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.439"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-                android:id="@+id/txtString"
-                android:layout_width="1dp"
-                android:layout_height="50dp"
-                android:layout_alignLeft="@+id/txtArduino"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="8dp"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
                 android:id="@+id/test_sleeping"
@@ -205,53 +177,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sensorView2"
-                app:layout_constraintVertical_bias="0.825" />
-
-        <android.support.constraint.ConstraintLayout
-                android:layout_width="200dp"
-                android:layout_height="50dp"
-                app:layout_constraintBottom_toTopOf="@+id/test_sleeping"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sensorView2">
-
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview_send_data_tracking"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#ffffff"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-            </android.support.v7.widget.RecyclerView>
-        </android.support.constraint.ConstraintLayout>
+                app:layout_constraintVertical_bias="0.665" />
 
 
-        <Button
-                android:id="@+id/warning_btn"
-                android:layout_width="91dp"
-                android:layout_height="49dp"
-                android:text="Button"
-
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/test_sleeping"
-                app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-                android:id="@+id/stop_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.881"
-                app:layout_constraintStart_toEndOf="@+id/warning_btn"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout

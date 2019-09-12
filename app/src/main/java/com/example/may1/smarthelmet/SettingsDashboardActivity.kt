@@ -40,46 +40,11 @@ class SettingsDashboardActivity : AppCompatActivity() {
 
 //**********************************************************************************************************************
 
-        dateAndTime()
+
 
 //**********************************************************************************************************************
 
     }
 //**********************************************************************************************************************
-    private fun dateAndTime() {
-        val t = object : Thread() {
-            override fun run() {
-                try {
-                    while (!isInterrupted) {
-                        sleep(1000)
-                        runOnUiThread {
-                            val tdate = findViewById(R.id.date_textView) as TextView
-                            val t_time = findViewById(R.id.time_textView) as TextView
-                            val t_standard = findViewById(R.id.standard_textView) as TextView
-
-                            val time = System.currentTimeMillis()
-                            val date = System.currentTimeMillis()
-                            val standard = System.currentTimeMillis()
-
-                            val sdf = SimpleDateFormat("MMM/dd/yyyy")
-                            val sdf_time = SimpleDateFormat("hh:mm:ss")
-                            val sdf_standard = SimpleDateFormat("a")
-
-                            val dateString = sdf.format(date)
-                            val timeString = sdf_time.format((time))
-                            val standardString = sdf_standard.format((standard))
-
-                            tdate.setText(dateString)
-                            t_time.setText(timeString)
-                            t_standard.setText((standardString))
-                        }
-                    }
-                } catch (e: InterruptedException) {
-                }
-
-            }
-        }
-        t.start()
-    }
 //**********************************************************************************************************************
 }

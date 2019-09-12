@@ -16,6 +16,7 @@ import android.telephony.SmsManager
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.may1.smarthelmet.Class.Data
 import com.example.may1.smarthelmet.Class.UpdateData
 import com.example.may1.smarthelmet.Class.User
 import com.example.may1.smarthelmet.MusicDashboardActivity
@@ -38,6 +39,7 @@ import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_dashboard.*
 import kotlinx.android.synthetic.main.activity_latest_data_tracking.*
 import kotlinx.android.synthetic.main.activity_music_dashboard.*
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_tracking_activity.*
 import kotlinx.android.synthetic.main.new_user_tracking_activity.*
 import java.io.IOException
@@ -181,15 +183,13 @@ import java.util.*
 //
 //         toUser = intent.getParcelableExtra<User>(NewUserTrackingActivity.USER_KEY)
 //
-         warning_btn.setOnClickListener {
-             performSendMessage()
 
-         }
 //         verifyUserIsLoggedIn()
 //         fetchCurrentUser()
 
          //NewUseractivity
-         toUser = intent.getParcelableExtra<User>(NewUserTrackingActivity.USER_KEY)
+         //toUser = intent.getParcelableExtra<User>(NewUserTrackingActivity.USER_KEY)
+
 
         //*********************************tools************************************************************************
         home_music_activity.setOnClickListener {
@@ -256,7 +256,7 @@ import java.util.*
                     val endOfLineIndex = recDataString.indexOf("~")                    // determine the end-of-line
                     if (endOfLineIndex > 0) {                                           // make sure there data before ~
                         var dataInPrint = recDataString.substring(0, endOfLineIndex)    // extract string
-                        txtArduino.setText("Data Received = $dataInPrint")
+                      //  txtArduino.setText("Data Received = $dataInPrint")
                         Log.d("Data", "Data Received = $dataInPrint")
                         val dataLength = dataInPrint.length                          //get length of data received
                         //txtArduino.setText("String Length = $dataLength")
@@ -279,6 +279,8 @@ import java.util.*
                             sensorView1.text = " Temperature = " + temperature + "°C"
                             sensorView2.text = "  Alcohol content = " + alcohol_concentration + "mg/l"
                             //sensorView3.text = " Sensor 3 Voltage = " + examinate_alcohol + "V"
+
+                           saveDataToFirebaseDatabase()
 
                             //**************************Handler**********************************************
 
@@ -363,6 +365,8 @@ import java.util.*
 //         warning_btn.setOnClickListener {
 //             SleepingWarning()
 //         }
+
+
 
     }
 
@@ -581,6 +585,7 @@ private fun createBluetoothSocket(device: BluetoothDevice): BluetoothSocket {
      }
 
 
+
      // //Send SMS
      //    private fun sendSMS() {
      //
@@ -616,109 +621,130 @@ private fun createBluetoothSocket(device: BluetoothDevice): BluetoothSocket {
 
 
 //*********************************************Tracking*********************************************
-    private fun performSendMessage() {
-        // how do we actually send a message to firebase...
-        val text = "Location:"+ currentLatitude.toString() +currentLongtitude.toString() +"\n" + "Alcohol Content:" +   alcohol_concentration.toString() +"mg/L \n" + "Heart beat: 0 bpm "
-
-        val fromId = FirebaseAuth.getInstance().uid
-        val user = intent.getParcelableExtra<User>(NewUserTrackingActivity.USER_KEY)
-        val toId = user.uid
-
-        if (fromId == null) return
-
-//    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
-        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
-
-        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
-
-        val chatMessage = UpdateData(reference.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
-
-        reference.setValue(chatMessage)
-            .addOnSuccessListener {
-                Log.d(TrackingActivity.TAG, "Saved our chat message: ${reference.key}")
-                //edittext_chat_log.text.clear()
-                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
-            }
-
-        toReference.setValue(chatMessage)
-
-        val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
-        latestMessageRef.setValue(chatMessage)
-
-        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
-        latestMessageToRef.setValue(chatMessage)
-    }
-
-     private fun fetchCurrentUser() {
-         val uid = FirebaseAuth.getInstance().uid
-         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-         ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-             override fun onDataChange(p0: DataSnapshot) {
-                 LatestDataTrackingActivity.currentUser = p0.getValue(User::class.java)
-                 // Log.d("LatestMessages", "Current user ${currentUser?.profileImageUrl}")
-             }
-
-             override fun onCancelled(p0: DatabaseError) {
-
-             }
-         })
-     }
-//     private fun verifyUserIsLoggedIn() {
+//    private fun performSendMessage() {
+//        // how do we actually send a message to firebase...
+//        val text = "Location:"+ currentLatitude.toString() +currentLongtitude.toString() +"\n" + "Alcohol Content:" +   alcohol_concentration.toString() +"mg/L \n" + "Heart beat: 0 bpm "
+//
+//        val fromId = FirebaseAuth.getInstance().uid
+//        val user = intent.getParcelableExtra<User>(NewUserTrackingActivity.USER_KEY)
+//        val toId = user.uid
+//
+//        if (fromId == null) return
+//
+////    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
+//        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+//
+//        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+//
+//        val chatMessage = UpdateData(reference.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
+//
+//        reference.setValue(chatMessage)
+//            .addOnSuccessListener {
+//                Log.d(TrackingActivity.TAG, "Saved our chat message: ${reference.key}")
+//                //edittext_chat_log.text.clear()
+//                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
+//            }
+//
+//        toReference.setValue(chatMessage)
+//
+//        val latestMessageRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId/$toId")
+//        latestMessageRef.setValue(chatMessage)
+//
+//        val latestMessageToRef = FirebaseDatabase.getInstance().getReference("/latest-messages/$toId/$fromId")
+//        latestMessageToRef.setValue(chatMessage)
+//    }
+//
+//     private fun fetchCurrentUser() {
 //         val uid = FirebaseAuth.getInstance().uid
-//         if (uid == null) {
-//             val intent = Intent(this, RegisterActivity::class.java)
-//             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-//             startActivity(intent)
-//         }
+//         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+//         ref.addListenerForSingleValueEvent(object: ValueEventListener {
+//
+//             override fun onDataChange(p0: DataSnapshot) {
+//                 LatestDataTrackingActivity.currentUser = p0.getValue(User::class.java)
+//                 // Log.d("LatestMessages", "Current user ${currentUser?.profileImageUrl}")
+//             }
+//
+//             override fun onCancelled(p0: DatabaseError) {
+//
+//             }
+//         })
 //     }
+////     private fun verifyUserIsLoggedIn() {
+////         val uid = FirebaseAuth.getInstance().uid
+////         if (uid == null) {
+////             val intent = Intent(this, RegisterActivity::class.java)
+////             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+////             startActivity(intent)
+////         }
+////     }
+//
+//
+//
+//
+////************************************************Tracking************************************
+//private fun fetchUsers() {
+//    val ref = FirebaseDatabase.getInstance().getReference("/users")
+//    ref.addListenerForSingleValueEvent(object: ValueEventListener {
+//
+//        override fun onDataChange(p0: DataSnapshot) {
+//
+//            val adapter = GroupAdapter<ViewHolder>()
+//
+//            p0.children.forEach {
+//                Log.d("NewMessage", it.toString())
+//                val user = it.getValue(User::class.java)
+//                if (user != null) {
+//                    adapter.add(UserItem(user))
+//                }
+//            }
+//
+//            adapter.setOnItemClickListener { item, view ->
+//
+//                val userItem = item as UserItem
+//
+//                val intent = Intent(view.context, DashboardActivity::class.java)
+//
+//                //Something wrong in here
+//                intent.putExtra(NewUserTrackingActivity.USER_KEY,  userItem.user)
+////                    intent.putExtra(USER_KEY, userItem.user)
+////                    intent.putExtra(USER_KEY,userItem.user)
+//                startActivity(intent)
+//
+//                finish()
+//
+//            }
+//
+//            recyclerview_send_data_tracking.adapter = adapter
+//        }
+//
+//        override fun onCancelled(p0: DatabaseError) {
+//
+//        }
+//    })
+//}
+//
+private fun saveDataToFirebaseDatabase() {
 
+    val uid = FirebaseAuth.getInstance().uid ?: ""
+    Log.d("RegisterActivity","fuck u :$uid")
 
+    // database = FirebaseDatabase.getInstance().getReference("/users/$uid")
+    val ref = FirebaseDatabase.getInstance().getReference("/datas/$uid")
+    Log.d("RegisterActivity","i want you action :$ref")
+    val data = Data( "Location:"+ currentLatitude.toString() +currentLongtitude.toString() +"\n" + "Alcohol Content:" +   alcohol_concentration.toString() +"mg/L \n" + "Heart beat: 0 bpm ");
 
+    ref.setValue(data)
 
-//************************************************Tracking************************************
-private fun fetchUsers() {
-    val ref = FirebaseDatabase.getInstance().getReference("/users")
-    ref.addListenerForSingleValueEvent(object: ValueEventListener {
+        .addOnSuccessListener {
+            Log.d("RegisterActivity", "Success save data to Firebase")
 
-        override fun onDataChange(p0: DataSnapshot) {
-
-            val adapter = GroupAdapter<ViewHolder>()
-
-            p0.children.forEach {
-                Log.d("NewMessage", it.toString())
-                val user = it.getValue(User::class.java)
-                if (user != null) {
-                    adapter.add(UserItem(user))
-                }
-            }
-
-            adapter.setOnItemClickListener { item, view ->
-
-                val userItem = item as UserItem
-
-                val intent = Intent(view.context, DashboardActivity::class.java)
-
-                //Something wrong in here
-                intent.putExtra(NewUserTrackingActivity.USER_KEY,  userItem.user)
-//                    intent.putExtra(USER_KEY, userItem.user)
-//                    intent.putExtra(USER_KEY,userItem.user)
-                startActivity(intent)
-
-                finish()
-
-            }
-
-            recyclerview_send_data_tracking.adapter = adapter
+            //open ConnectViaBluettooth when you success save data to database ***********
+        }
+        .addOnFailureListener {
+            Log.d("RegisterActivity", "Failed to set value to database :${it.message}")
         }
 
-        override fun onCancelled(p0: DatabaseError) {
-
-        }
-    })
 }
 
  }
-
-
 
